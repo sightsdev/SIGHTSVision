@@ -1,3 +1,9 @@
+'''
+	Created by the Semi-Autonomous Rescue Team
+	Licensed under GNU General Public License 3.0
+	
+'''
+
 import cv2
 from pyzbar.pyzbar import decode
 import imutils
