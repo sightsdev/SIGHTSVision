@@ -3,6 +3,7 @@ from pyzbar.pyzbar import decode
 import imutils
 from imutils.video import VideoStream
 from time import time
+import os
 
 def getNumber(line, prop):
         numbers = []
@@ -31,7 +32,8 @@ def dataArrayToString(line, prop):
 # Uncomment to use web stream from robot
 #vs = VideoStream(src="http://10.0.2.4:8081").start()
 vs = VideoStream(src=0).start()
-times = []
+times = [] # to tell how fast it was
+codes = [] # to be saved
 
 while (True):
         # read from camera source
@@ -51,6 +53,8 @@ while (True):
         # create text
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.putText(contrast_image, decodedString, (50 ,60) ,font , 1, (200,255,155), 2, cv2.LINE_AA)
+        if decodedString not in codes:
+            codes.append(decodedString)
 
         # print to console
         #if (not decoded == ""):
@@ -80,6 +84,12 @@ for time in times:
 avg = total/len(times)
 print("Each frame took on average "+str(avg)+" seconds to compute.")
 print("The average speed was "+str(1/avg)+" frames per second.")
-input()
 
+# chuck the codes in a file
+f = open("results.txt","w")
+for code in codes:
+    f.write(code+"\n")
+f.close()
+input()
+cv2.destroyAllWindows()
 
