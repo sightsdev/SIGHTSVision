@@ -32,8 +32,8 @@ def dataArrayToString(line, prop):
 # Uncomment to use web stream from robot
 #vs = VideoStream(src="http://10.0.2.4:8081").start()
 vs = VideoStream(src=0).start()
-times = [] # to tell how fast it was
-codes = [] # to be saved
+#times = [] # to tell how fast it was
+codes = {} # to be saved
 
 while (True):
         # read from camera source
@@ -47,49 +47,48 @@ while (True):
         contrast_image = cv2.equalizeHist(im)
 
         # decode QR code
-        decoded = str(decode(contrast_image))
-        decodedString = dataArrayToString(decoded, "data=")
+        decoded = decode(contrast_image)
+        decodedString = dataArrayToString(str(decoded), "data=")
+        
+        # if theres something in the output of decoded()
+        if len(decoded) == 1:
 
-        # create text
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(contrast_image, decodedString, (50 ,60) ,font , 1, (200,255,155), 2, cv2.LINE_AA)
-        if decodedString not in codes:
-            codes.append(decodedString)
+            # do the region
+            [x, y, w, h] = decoded[0].rect
+            [x1, y1, x2, y2] = [x, y, x+w, y+h]
+            region = contrast_image[y1:y2, x1:x2]
+            codes[decodedString] = region
+
+            # create text
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            cv2.putText(contrast_image, decodedString, (50 ,60) ,font , 1, (200,255,155), 2, cv2.LINE_AA)
 
         # print to console
         #if (not decoded == ""):
         #        print(decoded)
         if (decodedString != ""):
-                    print(decodedString)
+            print(decodedString)
 
         # draw keypoints window
         #cv2.imshow("Keypoints", im)
         # draw histogram window
         cv2.imshow("Contrasted (Equalize Histogram)", contrast_image)
 
-        # get the time it took and chuck it in times
-        time_at_end = time()
-        time_taken = time_at_end - time_at_start
-        times.append(time_taken)
-
         # exit condition
         k = cv2.waitKey(5) & 0xFF
         if k == 27:
                 break
 
-# get the average time taken and print it
-total = 0
-for time in times:
-        total += time
-avg = total/len(times)
-print("Each frame took on average "+str(avg)+" seconds to compute.")
-print("The average speed was "+str(1/avg)+" frames per second.")
-
 # chuck the codes in a file
 f = open("results.txt","w")
-for code in codes:
-    f.write(code+"\n")
-f.close()
-input()
-cv2.destroyAllWindows()
 
+for key in codes:
+    f.write(key+"\n")
+    filename = "".join(x for x in key if x.isalnum())
+    cv2.imwrite(filename+".png", codes[key])
+
+# close f
+f.close()
+
+# destroy all windows
+cv2.destroyAllWindows()
