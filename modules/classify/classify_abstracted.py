@@ -1,4 +1,5 @@
 
+# imports
 from scipy.spatial import distance as dist
 import matplotlib.pyplot as plt
 import numpy as np
@@ -7,7 +8,7 @@ import glob
 import cv2
 
 # Brute Force Feature matching 
-MIN_MATCH_COUNT = 10 
+MIN_MATCH_COUNT = 10
 MIN_MATCH_RATING = 0.7
 
 # Colour histogram comparisons
