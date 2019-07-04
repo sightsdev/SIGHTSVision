@@ -29,8 +29,8 @@ def dataArrayToString(line, prop):
         return number_string
 
 # Uncomment to use web stream from robot
-#vs = VideoStream(src="http://10.0.2.4:8081").start()
-vs = VideoStream(src=0).start()
+vs = VideoStream(src="http://10.0.0.3:8081").start()
+#vs = VideoStream(src=0).start()
 #times = [] # to tell how fast it was
 codes = {} # to be saved
 

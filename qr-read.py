@@ -2,7 +2,6 @@ import cv2
 from pyzbar.pyzbar import decode
 import imutils
 from imutils.video import VideoStream
-from time import time
 import os
 
 def getNumber(line, prop):
@@ -38,7 +37,6 @@ codes = {} # to be saved
 while (True):
         # read from camera source
         im = vs.read()
-        time_at_start = time()
 
         # convert to grayscale
         im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
