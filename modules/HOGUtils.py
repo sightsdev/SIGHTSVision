@@ -190,10 +190,8 @@ def non_max_suppression_fast(boxes, overlapThresh):
 		idxs = np.delete(idxs, np.concatenate(([last],
 			np.where(overlap > overlapThresh)[0])))
  
-	# return only the bounding boxes that were picked using the
-	# integer data type
+	# return only the bounding boxes that were picked using the integer data type
 	return boxes[pick].astype("int")
-
 
 # returns a description of the object
 def colorShape(image, shapes = True, colors = True, thresh = 127):
