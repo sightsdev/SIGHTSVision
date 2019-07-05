@@ -6,21 +6,30 @@ import imutils
 from imutils.video import VideoStream
 import os
 import argparse
-from pyramid import *
 from modules.HOGUtils import pyramid, sliding_window
 
 # argparse
 ap = argparse.ArgumentParser()
-ap.add_argument('-vs', '--videosource', default='r', help='-vs r for robot, -vs w for webcam.')
-ap.add_argument('-s', '--scale', default=2, help='image pyramid scale')
+ap.add_argument('-vs', '--videosource', default='w', help='-vs r for robot, -vs w for webcam.')
+ap.add_argument('-s', '--scale', default=1.5, help='image pyramid scale')
 ap.add_argument('-ss', '--stepsize', default=32, help='size of step')
-ap.add_argument('-ws', '--windowsize', default=128, help='side length of sliding window')
+ap.add_argument('-ws', '--winsize', default=64, help='side length of sliding window')
 args = vars(ap.parse_args())
 
 # ip
 ip = "10.0.0.4"
 
 # funcs
+def genDimensions(start_length, scale, w, h):
+    # w and h are the width and height of the original window
+    max_length = max(w, h)
+    dimensions = [start_length]
+    while dimensions[-1] < max_length:
+        dimensions.append(dimensions[-1]*scale)
+    dimensions[-1] = max_length
+    print(dimensions)
+    return dimensions
+
 def getNumber(line, prop):
     numbers = []
     count = 0
@@ -35,6 +44,7 @@ def getNumber(line, prop):
                 return numbers
             count = count + 1
             return numbers
+
 def dataArrayToString(line, prop):
     number_string = ""
     number = getNumber(line, prop)
@@ -63,9 +73,8 @@ while (True):
     contrast_image = cv2.equalizeHist(im)
 
     # pyramid, ratio
-    for current_level, ratio in pyramid(im, float(args["scale"])):
-        dimensions = (int(args['winsize']), int(args['winsize']))
-        for x, y, window in sliding_window(current_level, int(args['stepsize']), dimensions):
+    for side_length in genDimensions(int(args['winsize']), float(args['scale']), im.shape[1], im.shape[0]):
+        for x, y, window in sliding_window(contrast_image, int(args['stepsize']), (int(side_length), int(side_length))):
 
             # decode the sliding window contents
             decoded = decode(window)
@@ -73,6 +82,7 @@ while (True):
 
             # if anything was read
             if len(decoded) == 1:
+                print('qr code detected.')
                 if (decodedString != ""):
                     print(decodedString)
 
@@ -80,17 +90,16 @@ while (True):
                 [x_r, y_r, w_r, h_r] = decoded[0].rect # get x/y/w/h
                 # get x, y of top-left and bottom-right
                 [x1_r, y1_r, x2_r, y2_r] = [x_r, y_r, x_r+w_r, y_r+h_r]
-                # make x,y of top-left and bottom-right relative to the current_level
+                # make x,y of top-left and bottom-right relative to the main image
                 [x1_r, y1_r, x2_r, y2_r] = [x+x1_r, y+y1_r, x+x2_r, y+y2_r]
-                # make x,y of top_left and bottom-right relative to the base level
-                [x1_r, y1_r, x2_r, y2_r] = [x1_r*ratio, y1_r*ratio, x2_r*ratio, y2_r*ratio]
+                # draw it on the frame
+                cv2.rectangle(im, (x1_r, y1_r), (x2_r, y2_r), (0, 255, 0), 2)
 
                 # save the region and the decoded string
-                codes[decodedString] = im[y1_r:y2_r, x1_r:x2_r]
+                codes[decodedString] = im[int(y1_r):int(y2_r), int(x1_r):int(x2_r)]
 
-    # after the whole frame has been processed, display the image
-    cv2.imshow("Camera", contrast_image)
-    # exit condition
+    cv2.imshow("Frame", im)
+
     k = cv2.waitKey(5) & 0xFF
     if k == 27:
         break
