@@ -13,6 +13,8 @@ from modules.HOGUtils import pyramid, sliding_window
 ap = argparse.ArgumentParser()
 ap.add_argument('-vs', '--videosource', default='r', help='-vs r for robot, -vs w for webcam.')
 ap.add_argument('-s', '--scale', default=2, help='image pyramid scale')
+ap.add_argument('-ss', '--stepsize', default=32, help='size of step')
+ap.add_argument('-ws', '--windowsize', default=128, help='side length of sliding window')
 args = vars(ap.parse_args())
 
 # ip
@@ -64,39 +66,34 @@ while (True):
     for current_level, ratio in pyramid(im, float(args["scale"])):
         dimensions = (int(args['winsize']), int(args['winsize']))
         for x, y, window in sliding_window(current_level, int(args['stepsize']), dimensions):
-            pass
 
-    '''
+            # decode the sliding window contents
+            decoded = decode(window)
+            decodedString = dataArrayToString(str(decoded), "data=")
 
-    # decode QR code
-    decoded = decode(contrast_image)
-    print(decoded)
-    decodedString = dataArrayToString(str(decoded), "data=")
-        
-    # if theres something in the output of decoded()   
-    if len(decoded) == 1:
+            # if anything was read
+            if len(decoded) == 1:
+                if (decodedString != ""):
+                    print(decodedString)
 
-        # do the region
-        [x, y, w, h] = decoded[0].rect
-        [x1, y1, x2, y2] = [x, y, x+w, y+h]
-        region = contrast_image[y1:y2, x1:x2]
+                # get the region
+                [x_r, y_r, w_r, h_r] = decoded[0].rect # get x/y/w/h
+                # get x, y of top-left and bottom-right
+                [x1_r, y1_r, x2_r, y2_r] = [x_r, y_r, x_r+w_r, y_r+h_r]
+                # make x,y of top-left and bottom-right relative to the current_level
+                [x1_r, y1_r, x2_r, y2_r] = [x+x1_r, y+y1_r, x+x2_r, y+y2_r]
+                # make x,y of top_left and bottom-right relative to the base level
+                [x1_r, y1_r, x2_r, y2_r] = [x1_r*ratio, y1_r*ratio, x2_r*ratio, y2_r*ratio]
 
-        # print to console, if there is not nothing (= if there is something)
-        if (decodedString != ""):
-            print(decodedString)
+                # save the region and the decoded string
+                codes[decodedString] = im[y1_r:y2_r, x1_r:x2_r]
 
-        # add the string and the region to the codes dict
-        codes[decodedString] = region
-
-        # draw keypoints window
-        #cv2.imshow("Keypoints", im)
-        # draw histogram window
+    # after the whole frame has been processed, display the image
     cv2.imshow("Camera", contrast_image)
     # exit condition
     k = cv2.waitKey(5) & 0xFF
     if k == 27:
         break
-    '''
 
 # chuck the codes in a fil
 f = open("res/results.txt","w")
