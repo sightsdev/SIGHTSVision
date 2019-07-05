@@ -7,22 +7,21 @@ import imutils
 import time
 import cv2
 from modules.colorlabeler import ColorLabeler
- 
+
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-v", "--video", help="path to the video file")
 ap.add_argument("-a", "--max-area", type=int, default=500, help="minimum area size")
 args = vars(ap.parse_args())
- 
+
 # if the video argument is None, then we are reading from webcam
 if args.get("video", None) is None:
-	vs = VideoStream(src=0).start()
+	vs = VideoStream(src="http://10.0.0.4:8081").start()
 	time.sleep(2.0)
-
 # otherwise, we are reading from a video file
 else:
 	vs = cv2.VideoCapture(args["video"])
- 
+
 # initialize the first frame in the video stream
 firstFrame = None
 
@@ -103,14 +102,14 @@ while True:
 		cen = (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"]))
 		added = []
 		for o in objects:
-			added.append(o.add_to_path(cen, 50))
+			added.append(o.add_to_path(cen, 100))
 		if True not in added:
 			objects.append(Object(cen))
 
 	# draw lines between the centres
 	for o in objects:
 		for i in range(1, len(o.path)):
-			cv2.line(frame, o.path[i-1], o.path[i], color, 2)
+			cv2.line(frame, o.path[i-1], o.path[i], color, 1)
 
 	# show the frame and record if the user presses a key
 	cv2.imshow("Camera", frame)

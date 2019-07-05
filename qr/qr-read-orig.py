@@ -7,7 +7,7 @@ import os
 import argparse
 
 ap = argparse.ArgumentParser()
-ap.add_argument('-vs', '--videosource', default='r', help='-vs r for robot, -vs w for webcam.')
+ap.add_argument('-vs', '--videosource', default='w', help='-vs r for robot, -vs w for webcam.')
 args = vars(ap.parse_args())
 
 # ip
@@ -41,7 +41,7 @@ def dataArrayToString(line, prop):
 if args['videosource'] == 'w':
     source = VideoStream(src=0).start()
 elif args['videosource'] == 'r':
-    source = VideoStream(src="http://"+ip+":8081").start()
+    source = VideoStream(src="http://"+ip+":8082").start()
 
 # save codes
 codes = {}
@@ -58,7 +58,6 @@ while (True):
 
     # decode QR code
     decoded = decode(contrast_image)
-    print(decoded)
     decodedString = dataArrayToString(str(decoded), "data=")
         
     # if theres something in the output of decoded()   
