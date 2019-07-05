@@ -18,7 +18,7 @@ args = vars(ap.parse_args())
 if args.get("video", None) is None:
 	vs = VideoStream(src=0).start()
 	time.sleep(2.0)
- 
+
 # otherwise, we are reading from a video file
 else:
 	vs = cv2.VideoCapture(args["video"])
@@ -26,8 +26,26 @@ else:
 # initialize the first frame in the video stream
 firstFrame = None
 
-# store all contour centres
-centres = []
+# distance function
+def distance(p1, p2):
+    x_diff = abs(p1[0]-p2[0])
+    y_diff = abs(p1[1]-p2[1])
+    return (x_diff*x_diff + y_diff*y_diff)
+
+# class for objects
+class Object:
+    # stores a path of pixels points
+    def __init__(self, point): # init the object at a starting point
+        self.path = [point]
+    def add_to_path(self, point, maxdist):
+        if distance(self.path[-1], point) < maxdist:
+            self.path.append(point)
+            return True
+        else:
+            return False
+
+# store all the objects
+objects = []
 
 # draw things in a colour
 color = (0, 0, 255)
@@ -78,16 +96,21 @@ while True:
 		# compute the bounding box for the contour, draw it on the frame,
 		# and update the text
 		(x, y, w, h) = cv2.boundingRect(c)
-		cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
+		cv2.rectangle(frame, (x, y), (x + w, y + h), color, 1)
         
 		# chuck the centre in the centres thing
 		M = cv2.moments(c)
 		cen = (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"]))
-		centres.append(cen)
+		added = []
+		for o in objects:
+			added.append(o.add_to_path(cen, 50))
+		if True not in added:
+			objects.append(Object(cen))
 
 	# draw lines between the centres
-	for i in range(1, len(centres)):
-		cv2.line(frame, centres[i-1], centres[i], color, 2)
+	for o in objects:
+		for i in range(1, len(o.path)):
+			cv2.line(frame, o.path[i-1], o.path[i], color, 2)
 
 	# show the frame and record if the user presses a key
 	cv2.imshow("Camera", frame)
@@ -98,5 +121,6 @@ while True:
 		break
  
 # cleanup the camera and close any open windows
+cv2.waitKey(0)
 vs.stop() if args.get("video", None) is None else vs.release()
 cv2.destroyAllWindows()
