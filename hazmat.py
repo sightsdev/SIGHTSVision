@@ -9,6 +9,9 @@ from modules.classify.classify_abstracted import *
 from imutils.video import VideoStream
 import time
 
+# ip
+ip = "10.0.0.3"
+
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 #ap.add_argument("-sup", "--suppression", required=True, type=float, help="overlap area before suppression")
@@ -53,7 +56,7 @@ sign_list.append(Sign(templates_dir+"templates/26" + FILETYPE, "Dangerous"))
 
 if args['videosource'] == "r":
     # robot camera feed
-    vs = VideoStream(src="http://10.0.0.3:8081").start()
+    vs = VideoStream(src="http://"+ip+":8081").start()
 else:
     # if the video argument is None, then we are reading from webcam
     if args.get("video", None) is None:

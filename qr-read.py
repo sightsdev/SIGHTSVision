@@ -4,6 +4,9 @@ import imutils
 from imutils.video import VideoStream
 import os
 
+# ip
+ip = "10.0.0.3"
+
 def getNumber(line, prop):
         numbers = []
         count = 0
@@ -56,9 +59,9 @@ def readCode(image):
         return None, None
 
 # Uncomment to use web stream from robot
-front_camera = VideoStream(src="http://10.0.0.3:8081").start()
-side_1_camera = VideoStream(src="http://10.0.0.3:8082").start() # left/right could be the other way round
-side_2_camera = VideoStream(src="http://10.0.0.3:8083").start()
+front_camera = VideoStream(src="http://"+ip+":8081").start()
+side_1_camera = VideoStream(src="http://"+ip+":8082").start() # left/right could be the other way round
+side_2_camera = VideoStream(src="http://"+ip+":8083").start()
 #vs = VideoStream(src=0).start()
 #times = [] # to tell how fast it was
 codes = {} # to be saved
