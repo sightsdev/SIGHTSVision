@@ -100,8 +100,6 @@ def boundingBox(c):
         extRight = c[c[:, :, 0].argmax()][0][0]
         extTop = c[c[:, :, 1].argmin()][0][1]
         extBot = c[c[:, :, 1].argmax()][0][1]
-        Left = c[c[:, :, 0].argmin()][0]
-        Bottom = c[c[:, :, 1].argmax()][0]
         
         # s2 = math.sqrt(2*math.sqrt(math.pow(Left[0]-Bottom[0],2)+math.pow(Left[1]-Bottom[1],2)))
         # A = cv2.moments(c)["m00"]
@@ -282,58 +280,3 @@ def colorShape(image, shapes = True, colors = True, thresh = 127):
                 #desc.append(tuple([c,(cX, cY), text]))
                 desc.append((c, (cX,cY), text))
         return desc
-
-
-'''
-# the old colorshape function that only did either inverted or not inverted, not both at once
-def colorShapeOld(image, inverted = False, shapes = True, colors = True, thresh = 127):
-        # blur the resized image slightly, then convert it to both
-        # grayscale and the L*a*b* color spaces
-        blurred = cv2.GaussianBlur(image, (5, 5), 0)
-        gray = cv2.cvtColor(blurred, cv2.COLOR_BGR2GRAY)
-        lab = cv2.cvtColor(blurred, cv2.COLOR_BGR2LAB)
-
-        if inverted:
-                thresholded = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY_INV)[1]
-        else:
-                thresholded = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY)[1]
-
-        # find contours in the thresholded image
-        cnts, _ = cv2.findContours(thresholded.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-         
-        # initialize the shape detector and color labeler
-        sd = ShapeDetector()
-        cl = ColorLabeler()
-        desc = []
-        # loop over the contours
-        for c in cnts:
-                # compute the center of the contour
-                M = cv2.moments(c)
-                if M["m00"] != 0:
-                        cX = int((M["m10"] / M["m00"]))
-                        cY = int((M["m01"] / M["m00"]))
-                else:
-                        cX = int((M["m10"] / (M["m00"]+1)))
-                        cY = int((M["m01"] / (M["m00"]+1)))
-         
-                # detect the shape of the contour and label the color
-                if shapes:
-                        shape = sd.detect(c)
-                else:
-                        shape = ""
-                if colors:
-                        color = cl.label(lab, c)
-                else:
-                        color = ""
-         
-                # multiply the contour (x, y)-coordinates by the resize ratio,
-                # then draw the contours and the name of the shape and labeled
-                # color on the image
-                text = "{} {}".format(color, shape)
-                #cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
-                #cv2.putText(image, text, (cX, cY),
-                #	cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-                #desc.append(tuple([c,(cX, cY), text]))
-                desc.append((c, (cX,cY), text))
-        return desc
-'''
