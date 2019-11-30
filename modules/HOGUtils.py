@@ -19,16 +19,16 @@ def boolInput(v):
 
 # generates an image pyramid
 def pyramid(image, scale=1.5, minSize=(30, 30)):
-	ODim = image.shape[1]
+	base_width = image.shape[1]
 	# yield the original image
 	yield (image, 1)
  
 	# keep looping over the pyramid
 	while True:
 		# compute the new dimensions of the image and resize it
-		w = int(image.shape[1] / scale)
-		image = imutils.resize(image, width=w)
-		ratio = ODim/float(image.shape[1])
+		new_width = int(image.shape[1] / scale)
+		image = imutils.resize(image, width=new_width)
+		ratio = base_width/float(image.shape[1])
 		# if the resized image does not meet the supplied minimum
 		# size, then stop constructing the pyramid
 		if image.shape[0] < minSize[1] or image.shape[1] < minSize[0]:
@@ -134,7 +134,6 @@ def suppressed_AOI(image, suppression, winSize = (128, 128), scale = 1.5, invert
         return non_max_suppression_fast(boxes, suppression)
 
 
-
 # Malisiewicz et al.
 def non_max_suppression_fast(boxes, overlapThresh):
 	# if there are no boxes, return an empty list
@@ -191,6 +190,7 @@ def non_max_suppression_fast(boxes, overlapThresh):
 	# return only the bounding boxes that were picked using the integer data type
 	return boxes[pick].astype("int")
 
+
 # returns a description of the object
 def colorShape(image, shapes = True, colors = True, thresh = 127):
         # blur the resized image slightly, then convert it to both
@@ -209,8 +209,8 @@ def colorShape(image, shapes = True, colors = True, thresh = 127):
         inverted = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY_INV)[1]
 
         # find contours in the thresholded image
-        _, cnts_a, _ = cv2.findContours(thresholded.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        _, cnts_b, _ = cv2.findContours(inverted.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        _, cnts_thresh, _ = cv2.findContours(thresholded.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        _, cnts_invert, _ = cv2.findContours(inverted.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         # commented out the following line because i havent seen this before, and it might not really be relevant
         # in opencv 4. but i dont know, if theres an error here try uncommenting this
         #cnts = cnts[0] if imutils.is_cv2() else cnts[1]
@@ -220,15 +220,16 @@ def colorShape(image, shapes = True, colors = True, thresh = 127):
         cl = ColorLabeler()
         desc = []
         # loop over the contours
-        for c in cnts_a:
+        for c in cnts_thresh:
                 # compute the center of the contour
-                M = cv2.moments(c)
-                if M["m00"] != 0:
-                        cX = int((M["m10"] / M["m00"]))
-                        cY = int((M["m01"] / M["m00"]))
-                else:
-                        cX = int((M["m10"] / (M["m00"]+1)))
-                        cY = int((M["m01"] / (M["m00"]+1)))
+                # M = cv2.moments(c)
+                # if M["m00"] != 0:
+                #         cX = int((M["m10"] / M["m00"]))
+                #         cY = int((M["m01"] / M["m00"]))
+                # else:
+                #         cX = int((M["m10"] / (M["m00"]+1)))
+                #         cY = int((M["m01"] / (M["m00"]+1)))
+                cX, cY = 0, 0
          
                 # detect the shape of the contour and label the color
                 if shapes:
@@ -250,15 +251,16 @@ def colorShape(image, shapes = True, colors = True, thresh = 127):
                 #desc.append(tuple([c,(cX, cY), text]))
                 desc.append((c, (cX,cY), text))
         # loop over more contours
-        for c in cnts_b:
+        for c in cnts_invert:
                 # compute the center of the contour
-                M = cv2.moments(c)
-                if M["m00"] != 0:
-                        cX = int((M["m10"] / M["m00"]))
-                        cY = int((M["m01"] / M["m00"]))
-                else:
-                        cX = int((M["m10"] / (M["m00"]+1)))
-                        cY = int((M["m01"] / (M["m00"]+1)))
+                # M = cv2.moments(c)
+                # if M["m00"] != 0:
+                #         cX = int((M["m10"] / M["m00"]))
+                #         cY = int((M["m01"] / M["m00"]))
+                # else:
+                #         cX = int((M["m10"] / (M["m00"]+1)))
+                #         cY = int((M["m01"] / (M["m00"]+1)))
+                cX, cY = 0, 0
          
                 # detect the shape of the contour and label the color
                 if shapes:
