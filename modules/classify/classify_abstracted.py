@@ -14,6 +14,7 @@ BINS = 4
 COL_COMP_METHOD = cv2.HISTCMP_INTERSECT # Choose from: cv2.HISTCMP_CORREL, cv2.HISTCMP_CHISQR, cv2.HISTCMP_INTERSECT, cv2.HISTCMP_BHATTACHARYYA
 FILETYPE=".png"
 
+
 # Create a class to store sign image, name and match data
 class Sign(object):
 	
@@ -24,9 +25,11 @@ class Sign(object):
 		self.bff = 0
 		self.bff_data = []
 
+
 # Helper function to convert an image from BGR to RGB
 def rgb(bgr_image):
 	return cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
+
 
 # Code sourced (but highly simplified) from https://www.pyimagesearch.com/2014/07/14/3-ways-compare-histograms-using-opencv-python/
 # Simply convert to a histogram
@@ -35,9 +38,11 @@ def get_hist(image):
 		[0, 256, 0, 256, 0, 256])
 	return cv2.normalize(hist,hist).flatten()
 
+
 # Code sourced (but highly simplified) from https://www.pyimagesearch.com/2014/07/14/3-ways-compare-histograms-using-opencv-python/
 def color_match(image, template):	
 	return cv2.compareHist(get_hist(image), get_hist(template), COL_COMP_METHOD)
+
 
 # Code sourced from http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_feature_homography/py_feature_homography.html
 def bff_match(image, template):
@@ -64,6 +69,7 @@ def bff_match(image, template):
 
 	# return the number of matches (the tutorial describes how to draw the features if interested)
 	return good
+
 
 # classify the input image
 def classify(image, sign_list):
