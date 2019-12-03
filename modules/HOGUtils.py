@@ -39,7 +39,7 @@ def pyramid(image, scale=1.5, minSize=(30, 30)):
 
 
 # generates a sliding window (really just a list of image regions. 'sliding' is just a visualisation)
-def sliding_window(image, stepSize, windowSize = (128, 128)):
+def sliding_window(image, stepSize = 32, windowSize = (128, 128)):
 	# slide a window across the image
 	for y in range(0, image.shape[0], stepSize):
 		for x in range(0, image.shape[1], stepSize):
@@ -197,7 +197,7 @@ def colorShape(image, shapes = True, colors = True, thresh = 127):
         # grayscale and the L*a*b* color spaces
         blurred = cv2.GaussianBlur(image, (5, 5), 0)
         gray = cv2.cvtColor(blurred, cv2.COLOR_BGR2GRAY)
-        lab = cv2.cvtColor(blurred, cv2.COLOR_BGR2LAB)
+        #lab = cv2.cvtColor(blurred, cv2.COLOR_BGR2LAB)
 
         # changed the system so that the contours are the inverted and non inverted ones both concatenated.
         # this is cause sometimes the inverted one did better and sometimes the non inverted one did better
@@ -214,7 +214,7 @@ def colorShape(image, shapes = True, colors = True, thresh = 127):
         # commented out the following line because i havent seen this before, and it might not really be relevant
         # in opencv 4. but i dont know, if theres an error here try uncommenting this
         #cnts = cnts[0] if imutils.is_cv2() else cnts[1]
-         
+        
         # initialize the shape detector and color labeler
         sd = ShapeDetector()
         cl = ColorLabeler()
