@@ -1,7 +1,5 @@
 
 # imports
-from scipy.spatial import distance as dist
-import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import glob
@@ -82,14 +80,6 @@ def classify(image, sign_list):
         
     # Sort the results using the bff match attribute in reverse order
     sign_list.sort(key=lambda x: x.bff, reverse=True)
-
-    # Loop through signs to display sorted images, and match data
-    for i, sign in enumerate(sign_list):
-        #ax = fig.add_subplot(3, 6, i+7)
-        template = cv2.imread(sign.image)
-        #ax.imshow(rgb(template))
-        #ax.set_title("B: %.0f, C: %.3f" % (sign.bff, sign.col))
-        #plt.axis("off")
 
     best = sign_list[0]
     best_image = cv2.imread(best.image)
