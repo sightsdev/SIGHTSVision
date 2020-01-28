@@ -11,7 +11,6 @@ MIN_MATCH_RATING = 0.7
 # Colour histogram comparisons
 BINS = 4
 COL_COMP_METHOD = cv2.HISTCMP_INTERSECT # Choose from: cv2.HISTCMP_CORREL, cv2.HISTCMP_CHISQR, cv2.HISTCMP_INTERSECT, cv2.HISTCMP_BHATTACHARYYA
-FILETYPE=".png"
 
 
 # Create a class to store sign image, name and match data
