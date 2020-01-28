@@ -89,6 +89,5 @@ def classify(image, sign_list):
     sign_list.sort(key=lambda x: x.bff, reverse=True)
 
     best = sign_list[0]
-    best_image = cv2.imread(best.image)
 
     return best.name
