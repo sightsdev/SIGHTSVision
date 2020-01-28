@@ -66,6 +66,7 @@ def bff_match(image, template):
 	# store all the good matches as per Lowe's ratio test.
     # what this does is, only chooses the features detected that are close together. If they aren't close together, they aren't "good"
     # isn't this what flann.knnMatch is already doing?
+    # yes, but this filters through those matches to find only the MOST accurate ones
 	good = []
 	for m,n in matches:
 		if m.distance < MIN_MATCH_RATING*n.distance:
