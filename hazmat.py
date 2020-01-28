@@ -27,6 +27,7 @@ args = vars(ap.parse_args())
 # Init templates
 sign_list = []
 templates_dir = "modules/classify/"
+FILETYPE = ".png"
 sign_list.append(Sign(templates_dir+"templates/1" + FILETYPE, "Explosives 1.1 1"))
 sign_list.append(Sign(templates_dir+"templates/2" + FILETYPE, "Explosives 1.2 1"))
 sign_list.append(Sign(templates_dir+"templates/3" + FILETYPE, "Explosives 1.3 1"))

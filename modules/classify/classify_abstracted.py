@@ -12,7 +12,6 @@ MIN_MATCH_RATING = 0.7
 BINS = 4
 COL_COMP_METHOD = cv2.HISTCMP_INTERSECT # Choose from: cv2.HISTCMP_CORREL, cv2.HISTCMP_CHISQR, cv2.HISTCMP_INTERSECT, cv2.HISTCMP_BHATTACHARYYA
 
-
 # Create a class to store sign image, name and match data
 class Sign(object):
 	
@@ -79,7 +78,7 @@ def bff_match(image, template):
 def classify(image, sign_list):
 
     # Loop through signs to store bff and color matches
-    for i, sign in enumerate(sign_list):
+    for sign in sign_list:
         template = cv2.imread(sign.image)
         sign.bff_data = bff_match(image, template) # maybe this is a list of all the features
         sign.bff = len(sign.bff_data) # maybe this is the number of features that were detected as matches?
