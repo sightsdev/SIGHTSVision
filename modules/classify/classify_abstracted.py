@@ -77,9 +77,6 @@ def bff_match(image, template):
 
 # classify the input image
 def classify(image, sign_list):
-    
-    # debug
-    print("function called")
 
     # Loop through signs to store bff and color matches
     for i, sign in enumerate(sign_list):
