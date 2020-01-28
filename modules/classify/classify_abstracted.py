@@ -62,6 +62,7 @@ def bff_match(image, template):
 	matches = flann.knnMatch(des1, des2, k=2)
 
 	# store all the good matches as per Lowe's ratio test.
+    # what this does is, only chooses the features detected that are close together. If they aren't close together, they aren't "good" (they aren't shared between images)
 	good = []
 	for m,n in matches:
 		if m.distance < MIN_MATCH_RATING*n.distance:
@@ -81,10 +82,11 @@ def classify(image, sign_list):
     for i, sign in enumerate(sign_list):
         template = cv2.imread(sign.image)
         sign.bff_data = bff_match(image, template)
-        sign.bff = len(sign.bff_data)
+        sign.bff = len(sign.bff_data) # maybe this is the number of features that were detected as matches?
         sign.col = color_match(image, template)
         
     # Sort the results using the bff match attribute in reverse order
+    # this only uses the bff property of the sign objects, not colour.
     sign_list.sort(key=lambda x: x.bff, reverse=True)
 
     best = sign_list[0]
