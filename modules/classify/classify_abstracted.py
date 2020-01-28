@@ -5,8 +5,7 @@ import argparse
 import glob
 import cv2
 
-# Brute Force Feature matching 
-MIN_MATCH_COUNT = 10
+# Brute Force Feature matching
 MIN_MATCH_RATING = 0.7
 
 # Colour histogram comparisons
@@ -50,19 +49,23 @@ def bff_match(image, template):
 	sift = cv2.xfeatures2d.SIFT_create()
 
 	# find the keypoints and descriptors with SIFT
-	kp1, des1 = sift.detectAndCompute(image, None) # apparently this only works with 8-bit images
-	kp2, des2 = sift.detectAndCompute(template, None)
+    # keypoints and descriptors of the image we are interested in
+	kp_detection, des_detection = sift.detectAndCompute(image, None) # apparently this only works with 8-bit images
+    # keypoints and descriptors of the template image
+	kp_template, des_template = sift.detectAndCompute(template, None)
 
+    # make a "flann based matcher" object which has these parameters.
 	FLANN_INDEX_KDTREE = 0
 	index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
-	search_params = dict(checks = 50)
-
+	search_params = dict(checks = 50) # how many times to check something, higher number is more checks which is more accurate but slower
 	flann = cv2.FlannBasedMatcher(index_params, search_params)
 
-	matches = flann.knnMatch(des1, des2, k=2)
+    # this looks through the descriptors of each image and sees which points match?
+	matches = flann.knnMatch(des_detection, des_template, k=2)
 
 	# store all the good matches as per Lowe's ratio test.
-    # what this does is, only chooses the features detected that are close together. If they aren't close together, they aren't "good" (they aren't shared between images)
+    # what this does is, only chooses the features detected that are close together. If they aren't close together, they aren't "good"
+    # isn't this what flann.knnMatch is already doing?
 	good = []
 	for m,n in matches:
 		if m.distance < MIN_MATCH_RATING*n.distance:
@@ -81,7 +84,7 @@ def classify(image, sign_list):
     # Loop through signs to store bff and color matches
     for i, sign in enumerate(sign_list):
         template = cv2.imread(sign.image)
-        sign.bff_data = bff_match(image, template)
+        sign.bff_data = bff_match(image, template) # maybe this is a list of all the features
         sign.bff = len(sign.bff_data) # maybe this is the number of features that were detected as matches?
         sign.col = color_match(image, template)
         
