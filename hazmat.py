@@ -12,13 +12,8 @@ import time
 # ip
 ip = "10.0.0.3"
 
-# construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
-#ap.add_argument("-sup", "--suppression", required=True, type=float, help="overlap area before suppression")
-#ap.add_argument("-s", "--scale", type=float, default=1.5, help="scale factor size")
-#ap.add_argument("-w", "--winSize", default=(128,128), help="sliding window size")
 ap.add_argument("-vs", "--videosource", default='r', help="-vs r for robot camera, -vs w for webcam.")
-#ap.add_argument("-it","--invertedThresh", default="false",help="Uses BINARY_THRESH_INV")
 ap.add_argument("-t","--threshVal", default=127, type = int, help="Threshold val for edge detection")
 ap.add_argument("-m", "--minimum", default=200, type=int, help="The minimum number of pixels to be inside a contour to render it valid")
 ap.add_argument("-v", "--video", default=None, help="The path to the input video")
@@ -56,14 +51,14 @@ sign_list.append(Sign(templates_dir+"templates/25" + FILETYPE, "Oher Dangerous G
 sign_list.append(Sign(templates_dir+"templates/26" + FILETYPE, "Dangerous"))
 
 if args['videosource'] == "r":
-    # robot camera feed
+    # robot
     vs = VideoStream(src="http://"+ip+":8081").start()
 else:
-    # if the video argument is None, then we are reading from webcam
+    # webcam
     if args.get("video", None) is None:
         vs = VideoStream(src=0).start()
         time.sleep(2.0)
-    # otherwise, we are reading from a video file
+    # video file
     else:
         vs = cv2.VideoCapture(args["video"])
     
