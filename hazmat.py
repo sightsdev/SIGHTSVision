@@ -82,11 +82,11 @@ while True:
         # if it is a square and is big enough
         if "square" in desc.lower() and cv2.contourArea(contour) > int(args['minimum']):
             sqrs = np.append(sqrs, HU.boundingBox(contour),0) # append it to the bounding boxes
-            cv2.drawContours(mask, [contour], -1, 255, -1) # draw it onto the black image
+            cv2.drawContours(mask, [contour], -1, 255, -1) # draw it onto the black image in a white colour
 
     # this combines them into one image
     masked = cv2.bitwise_and(frame, frame, mask=mask)
-    images = imutils.build_montages([frame, masked], (frame.shape[1], frame.shape[0]), (2,1))
+    draw_image = frame
 
     # calculate
     for square in sqrs:
@@ -107,20 +107,17 @@ while True:
 
         # get text position etc
         (text_width_1, text_height_1) = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontScale=font_size, thickness=font_thickness)[0]
-        (text_width_2, text_height_2) = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontScale=font_size, thickness=font_thickness)[0]
 
+        # get coords of rectangle behind text
         box_coords_1 = ((text_x + buff, text_y + buff), (text_x + text_width_1 - 2*buff, text_y - text_height_1 - 2*buff))
-        box_coords_2 = ((text_x+masked.shape[0] + buff, text_y + buff), (text_x+masked.shape[0] + text_width_2 - 2*buff, text_y - text_height_2 - 2*buff))
 
-        # draw rects
-        cv2.rectangle(images[0], box_coords_1[0], box_coords_1[1], black, cv2.FILLED)
-        cv2.rectangle(images[0], box_coords_2[0], box_coords_2[1], black, cv2.FILLED)
+        # draw rectangle behind text
+        cv2.rectangle(draw_image, box_coords_1[0], box_coords_1[1], black, cv2.FILLED)
         
         # draw text
-        cv2.putText(images[0], text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, font_size, colour, font_thickness)
-        cv2.putText(images[0], text, (text_x+masked.shape[0], text_y), cv2.FONT_HERSHEY_SIMPLEX, font_size, colour, font_thickness)
+        cv2.putText(draw_image, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, font_size, colour, font_thickness)
 
-    cv2.imshow("Camera Feed", images[0]) # images[0] is a combination of the mask and the main image side by side
+    cv2.imshow("Camera Feed", draw_image) # images[0] is a combination of the mask and the main image side by side
 
     # if the `q` key is pressed, break from the loop
     key = cv2.waitKey(500) & 0xFF
