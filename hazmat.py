@@ -91,6 +91,10 @@ while True:
     # calculate
     for square in sqrs:
 
+        # box
+        x1, y1, x2, y2 = int(square[0]), int(square[1]), int(square[2]), int(square[3])
+        region = masked[y1:y2, x1:x2]
+
         # constants
         text = classify(region, sign_list)
         text_x = int(x1 + (x2-x1)/2)
@@ -104,6 +108,13 @@ while True:
         # get text position etc
         (text_width_1, text_height_1) = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontScale=font_size, thickness=font_thickness)[0]
         (text_width_2, text_height_2) = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontScale=font_size, thickness=font_thickness)[0]
+
+        box_coords_1 = ((text_x + buff, text_y + buff), (text_x + text_width_1 - 2*buff, text_y - text_height_1 - 2*buff))
+        box_coords_2 = ((text_x+masked.shape[0] + buff, text_y + buff), (text_x+masked.shape[0] + text_width_2 - 2*buff, text_y - text_height_2 - 2*buff))
+
+        # draw rects
+        cv2.rectangle(images[0], box_coords_1[0], box_coords_1[1], black, cv2.FILLED)
+        cv2.rectangle(images[0], box_coords_2[0], box_coords_2[1], black, cv2.FILLED)
         
         # draw text
         cv2.putText(images[0], text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, font_size, colour, font_thickness)
