@@ -119,7 +119,7 @@ while True:
 
     cv2.imshow("Camera Feed", draw_image) # images[0] is a combination of the mask and the main image side by side
 
-    # if the `q` key is pressed, break from the loop
+    # if the "q" key is pressed, break from the loop
     key = cv2.waitKey(500) & 0xFF
     if key == ord("q"):
         break
