@@ -93,20 +93,10 @@ def findStuff(image, inverted, threshval = 127, ratio = 1):
 
 # turn a single contour into a single bounding box
 def boundingBox(c):
-        ## ANTHONY COMMENT:
-        ## print(c) shows an array looking like [[a b c d]], which is probably why it doesn't
-        ## work super well with the code below. the contour should be a series of points
         extLeft = c[c[:, :, 0].argmin()][0][0]
         extRight = c[c[:, :, 0].argmax()][0][0]
         extTop = c[c[:, :, 1].argmin()][0][1]
         extBot = c[c[:, :, 1].argmax()][0][1]
-        
-        # s2 = math.sqrt(2*math.sqrt(math.pow(Left[0]-Bottom[0],2)+math.pow(Left[1]-Bottom[1],2)))
-        # A = cv2.moments(c)["m00"]
-        # #        ((width)*(height)-momentArea)/
-        # inner = ((extRight-extLeft)*(extBot-extTop)-A)/math.pow(s2/2,2)
-        # inner2 = (4*math.pow(s2/2,2)-inner)/(4*math.pow(s2/2,2))
-        # #angle = math.degrees(math.acos(inner2))/2
         angle  = 0
         return np.array([[extLeft,extTop,extRight,extBot,angle]])
 
