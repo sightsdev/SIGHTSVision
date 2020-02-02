@@ -61,15 +61,12 @@ else:
     # video file
     else:
         vs = cv2.VideoCapture(args["video"])
-    
 
-# initialize the first frame in the video stream
-firstFrame = None
 
 # loop over the frames of the video
 while True:
     frame = vs.read()
-    frame = frame if args.get("video", None) is None else frame[1]
+    frame = frame if args["video"] == None else frame[1]
  
     # if the frame could not be grabbed, then we have reached the end
     # of the video
