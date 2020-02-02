@@ -89,10 +89,10 @@ while True:
     draw_image = frame
 
     # calculate
-    for square in sqrs:
+    for bounding_box in sqrs:
 
         # box
-        x1, y1, x2, y2 = int(square[0]), int(square[1]), int(square[2]), int(square[3])
+        x1, y1, x2, y2 = int(bounding_box[0]), int(bounding_box[1]), int(bounding_box[2]), int(bounding_box[3])
         region = masked[y1:y2, x1:x2]
 
         # constants
