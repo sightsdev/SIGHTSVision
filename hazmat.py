@@ -55,7 +55,7 @@ if args['videosource'] == "r":
     vs = VideoStream(src="http://"+ip+":8081").start()
 else:
     # webcam
-    if args.get("video", None) is None:
+    if args["video"] == None:
         vs = VideoStream(src=0).start()
         time.sleep(2.0)
     # video file
