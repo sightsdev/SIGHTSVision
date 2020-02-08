@@ -17,7 +17,7 @@ class Sign(object):
 	
 	def __init__(self, image, name):
 		self.name = name
-		self.image = image
+		self.image = cv2.imread(image)
 		self.col = 0
 		self.bff = 0
 		self.bff_data = []
@@ -79,7 +79,8 @@ def classify(image, sign_list):
 
     # Loop through signs to store bff and color matches
     for sign in sign_list:
-        template = cv2.imread(sign.image)
+        #template = cv2.imread(sign.image)
+        template = sign.image
         sign.bff_data = bff_match(image, template) # maybe this is a list of all the features
         sign.bff = len(sign.bff_data) # maybe this is the number of features that were detected as matches?
         sign.col = color_match(image, template)
