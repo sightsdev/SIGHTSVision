@@ -1,4 +1,11 @@
 
+# this is the main file of the hazmat detector
+# to run it, enter "hazmat.py -vs w" in console.
+# this will run the hazmat detector on your computer camera.
+# just "hazmat.py" will run the detector on your robot camera, if you've entered its IP into the variable below.
+
+
+# imports
 import modules.HOGUtils as HU
 import imutils
 import argparse
