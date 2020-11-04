@@ -2,7 +2,7 @@
 # this is the main file of the hazmat detector
 # to run it, enter "hazmat.py -vs w" in console.
 # this will run the hazmat detector on your computer camera.
-# just "hazmat.py" will run the detector on your robot camera, if you've entered its IP into the variable below.
+# just "hazmat.py -vs r" will run the detector on your robot camera, if you've entered its IP into the variable below.
 
 
 # imports
@@ -20,7 +20,7 @@ import time
 ip = "10.0.0.3"
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-vs", "--videosource", default='r', help="-vs r for robot camera, -vs w for webcam.")
+ap.add_argument("-vs", "--videosource", help="-vs r for robot camera, -vs w for webcam.")
 ap.add_argument("-t","--threshVal", default=127, type = int, help="Threshold val for edge detection")
 ap.add_argument("-m", "--minimum", default=200, type=int, help="The minimum number of pixels to be inside a contour to render it valid")
 ap.add_argument("-v", "--video", default=None, help="The path to the input video")
