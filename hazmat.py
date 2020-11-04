@@ -59,15 +59,19 @@ sign_list.append(Sign(templates_dir+"templates/26" + FILETYPE, "Dangerous"))
 
 if args['videosource'] == "r":
     # robot
+    print("using robot camera")
     vs = VideoStream(src="http://"+ip+":8081").start()
 else:
     # webcam
     if args["video"] == None:
+        print("using local computer webcam")
         vs = VideoStream(src=0).start()
         time.sleep(2.0)
     # video file
     else:
+        print("using an imported video file")
         vs = cv2.VideoCapture(args["video"])
+        
 
 
 # loop over the frames of the video
