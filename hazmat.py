@@ -95,7 +95,7 @@ while True:
 
     # operate
     frame = imutils.resize(frame, width=500) # the frame
-    descs = HU.colorShape(frame, colors=False, thresh=int(args['threshVal'])) # info about the frame
+    descs = HU.colorShape(frame, colors=False, thresh=int(args['threshVal'])) # info about the frame - gets contours etc
     mask = np.zeros(frame.shape[:2], dtype="uint8") # a new black image the same size as the frame
     sqrs = np.zeros([0,5]) # a new array to store the bounding boxes
     for (contour, centre, desc) in descs: # for each contour in the info about the frame
@@ -104,14 +104,16 @@ while True:
             sqrs = np.append(sqrs, HU.boundingBox(contour),0) # append it to the bounding boxes
             cv2.drawContours(mask, [contour], -1, 255, -1) # draw it onto the black image in a white colour
 
-    # this combines them into one image
+    # this combines them into one image using the and operation on each pixel
     masked = cv2.bitwise_and(frame, frame, mask=mask)
+    # choosing an image to be drawn to the screen
     draw_image = frame
 
     # calculate
     for bounding_box in sqrs:
 
         # box
+        # grab just the area of the located sign from the image, instead of the entire image
         x1, y1, x2, y2 = int(bounding_box[0]), int(bounding_box[1]), int(bounding_box[2]), int(bounding_box[3])
         region = masked[y1:y2, x1:x2]
 
