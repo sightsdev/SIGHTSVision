@@ -30,32 +30,39 @@ args = vars(ap.parse_args())
 sign_list = []
 templates_dir = "modules/classify/"
 FILETYPE = ".png"
-sign_list.append(Sign(templates_dir+"templates/1" + FILETYPE, "Explosives 1.1 1"))
-sign_list.append(Sign(templates_dir+"templates/2" + FILETYPE, "Explosives 1.2 1"))
-sign_list.append(Sign(templates_dir+"templates/3" + FILETYPE, "Explosives 1.3 1"))
-sign_list.append(Sign(templates_dir+"templates/4" + FILETYPE, "Explosives 1.4 1"))
-sign_list.append(Sign(templates_dir+"templates/5" + FILETYPE, "Blasting Agents 1.5 1"))
-sign_list.append(Sign(templates_dir+"templates/6" + FILETYPE, "Explosives 1.6 1"))
-sign_list.append(Sign(templates_dir+"templates/7" + FILETYPE, "Flammable Gas 2"))
-sign_list.append(Sign(templates_dir+"templates/8" + FILETYPE, "Non-Flammable Gas 2"))
-sign_list.append(Sign(templates_dir+"templates/9" + FILETYPE, "Oxygen 2"))
-sign_list.append(Sign(templates_dir+"templates/10" + FILETYPE, "Inhalation Hazard"))
-sign_list.append(Sign(templates_dir+"templates/11" + FILETYPE, "Flammable 3"))
-sign_list.append(Sign(templates_dir+"templates/12" + FILETYPE, "Gasoline 3"))
-sign_list.append(Sign(templates_dir+"templates/13" + FILETYPE, "Combustible 3"))
-sign_list.append(Sign(templates_dir+"templates/14" + FILETYPE, "Fuel Oil 3"))
-sign_list.append(Sign(templates_dir+"templates/15" + FILETYPE, "Dangerous When Wet 4"))
-sign_list.append(Sign(templates_dir+"templates/16" + FILETYPE, "Flammable Solid 4"))
-sign_list.append(Sign(templates_dir+"templates/17" + FILETYPE, "Spontaneously Combustible 4"))
-sign_list.append(Sign(templates_dir+"templates/18" + FILETYPE, "Oxidizer 5.1"))
-sign_list.append(Sign(templates_dir+"templates/19" + FILETYPE, "Organic Peroxide 5.2"))
-sign_list.append(Sign(templates_dir+"templates/20" + FILETYPE, "Inhalation Hazard 6"))
-sign_list.append(Sign(templates_dir+"templates/21" + FILETYPE, "Poison 6"))
-sign_list.append(Sign(templates_dir+"templates/22" + FILETYPE, "Toxic 6"))
-sign_list.append(Sign(templates_dir+"templates/23" + FILETYPE, "Radioactive 7"))
-sign_list.append(Sign(templates_dir+"templates/24" + FILETYPE, "Corrosive 8"))
-sign_list.append(Sign(templates_dir+"templates/25" + FILETYPE, "Oher Dangerous Goods 9"))
-sign_list.append(Sign(templates_dir+"templates/26" + FILETYPE, "Dangerous"))
+names = ["Explosives 1.1 1", "Explosives 1.2 1", "Explosives 1.3 1", "Explosives 1.4 1", "Blasting Agents 1.5 1", "Explosives 1.6 1", "Flammable Gas 2", "Non-Flammable Gas 2",
+"Oxygen 2", "Inhalation Hazard", "Flammable 3", "Gasoline 3", "Combustible 3", "Fuel Oil 3", "Dangerous When Wet 4", "Flammable Solid 4", "Spontaneously Combustible 4",
+"Oxidizer 5.1", "Organic Peroxide 5.2", "Inhalation Hazard 6", "Poison 6", "Toxic 6", "Radioactive 7", "Corrosive 8", "Other Dangerous Goods 9", "Dangerous"]
+for i in range(1, 27):
+    sign_list.append(Sign(templates_dir+"templates/"+str(i) + FILETYPE, names[i-1]))
+
+# sign_list.append(Sign(templates_dir+"templates/1" + FILETYPE, "Explosives 1.1 1"))
+# sign_list.append(Sign(templates_dir+"templates/2" + FILETYPE, "Explosives 1.2 1"))
+# sign_list.append(Sign(templates_dir+"templates/3" + FILETYPE, "Explosives 1.3 1"))
+# sign_list.append(Sign(templates_dir+"templates/4" + FILETYPE, "Explosives 1.4 1"))
+# sign_list.append(Sign(templates_dir+"templates/5" + FILETYPE, "Blasting Agents 1.5 1"))
+# sign_list.append(Sign(templates_dir+"templates/6" + FILETYPE, "Explosives 1.6 1"))
+# sign_list.append(Sign(templates_dir+"templates/7" + FILETYPE, "Flammable Gas 2"))
+# sign_list.append(Sign(templates_dir+"templates/8" + FILETYPE, "Non-Flammable Gas 2"))
+# sign_list.append(Sign(templates_dir+"templates/9" + FILETYPE, "Oxygen 2"))
+# sign_list.append(Sign(templates_dir+"templates/10" + FILETYPE, "Inhalation Hazard"))
+# sign_list.append(Sign(templates_dir+"templates/11" + FILETYPE, "Flammable 3"))
+# sign_list.append(Sign(templates_dir+"templates/12" + FILETYPE, "Gasoline 3"))
+# sign_list.append(Sign(templates_dir+"templates/13" + FILETYPE, "Combustible 3"))
+# sign_list.append(Sign(templates_dir+"templates/14" + FILETYPE, "Fuel Oil 3"))
+# sign_list.append(Sign(templates_dir+"templates/15" + FILETYPE, "Dangerous When Wet 4"))
+# sign_list.append(Sign(templates_dir+"templates/16" + FILETYPE, "Flammable Solid 4"))
+# sign_list.append(Sign(templates_dir+"templates/17" + FILETYPE, "Spontaneously Combustible 4"))
+# sign_list.append(Sign(templates_dir+"templates/18" + FILETYPE, "Oxidizer 5.1"))
+# sign_list.append(Sign(templates_dir+"templates/19" + FILETYPE, "Organic Peroxide 5.2"))
+# sign_list.append(Sign(templates_dir+"templates/20" + FILETYPE, "Inhalation Hazard 6"))
+# sign_list.append(Sign(templates_dir+"templates/21" + FILETYPE, "Poison 6"))
+# sign_list.append(Sign(templates_dir+"templates/22" + FILETYPE, "Toxic 6"))
+# sign_list.append(Sign(templates_dir+"templates/23" + FILETYPE, "Radioactive 7"))
+# sign_list.append(Sign(templates_dir+"templates/24" + FILETYPE, "Corrosive 8"))
+# sign_list.append(Sign(templates_dir+"templates/25" + FILETYPE, "Oher Dangerous Goods 9"))
+# sign_list.append(Sign(templates_dir+"templates/26" + FILETYPE, "Dangerous"))
+
 
 if args['videosource'] == "r":
     # robot
@@ -71,14 +78,14 @@ else:
     else:
         print("using an imported video file")
         vs = cv2.VideoCapture(args["video"])
-        
+
 
 
 # loop over the frames of the video
 while True:
     frame = vs.read()
     frame = frame if args["video"] == None else frame[1]
- 
+
     # if the frame could not be grabbed, then we have reached the end
     # of the video
     if frame is None:
@@ -124,7 +131,7 @@ while True:
 
         # draw rectangle behind text
         cv2.rectangle(draw_image, box_coords_1[0], box_coords_1[1], black, cv2.FILLED)
-        
+
         # draw text
         cv2.putText(draw_image, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, font_size, colour, font_thickness)
 
