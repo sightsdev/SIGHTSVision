@@ -30,7 +30,7 @@ args = vars(ap.parse_args())
 sign_list = []
 templates_dir = "modules/classify/"
 FILETYPE = ".png"
-# these names are in the same order as the saved template images at modules/classify/templates.
+# these names are in the same order as the saved template images at modules/classify/templates. do not change the order of this array.
 names = ["Explosives 1.1 1", "Explosives 1.2 1", "Explosives 1.3 1", "Explosives 1.4 1", "Blasting Agents 1.5 1", "Explosives 1.6 1", "Flammable Gas 2", "Non-Flammable Gas 2",
 "Oxygen 2", "Inhalation Hazard", "Flammable 3", "Gasoline 3", "Combustible 3", "Fuel Oil 3", "Dangerous When Wet 4", "Flammable Solid 4", "Spontaneously Combustible 4",
 "Oxidizer 5.1", "Organic Peroxide 5.2", "Inhalation Hazard 6", "Poison 6", "Toxic 6", "Radioactive 7", "Corrosive 8", "Other Dangerous Goods 9", "Dangerous"]
