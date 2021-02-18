@@ -4,10 +4,10 @@ This repository contains vision and camera related software created by the Semi-
 
 ## Requirements
 
-Imutils ```python -m pip install imutils```
-Scipy ```python -m pip install scipy```
-OpenCV (version 3.4.13.47) ```pip install opencv-python==3.4.13.47```
-Numpy ```python -m pip install numpy```
+* Imutils ```python -m pip install imutils```
+* Scipy ```python -m pip install scipy```
+* OpenCV (version 3.4.13.47) ```pip install opencv-python==3.4.13.47```
+* Numpy ```python -m pip install numpy```
 
 
 ## Downloading and Running
@@ -16,8 +16,8 @@ The main file for hazmat detection is hazmat.py. Use the -h flag to see all the 
 ```python hazmat.py -h```
 
 Use the -vs flag for the video source. w for webcam, r for robot camera:
-```python hazmat.py -vs w```
-```python hazmat.py -vs r```
+* ```python hazmat.py -vs w```
+* ```python hazmat.py -vs r```
 
 
 ## Contributing
