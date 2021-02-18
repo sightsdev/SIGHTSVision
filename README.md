@@ -4,10 +4,8 @@ This repository contains vision and camera related software created by the Semi-
 
 ## Requirements
 
-* Imutils: ```python -m pip install imutils```
-* Scipy: ```python -m pip install scipy```
-* OpenCV (version 3.4): ```pip install opencv-python==3.4.13.47```
-* Numpy: ```python -m pip install numpy```
+Packages required are Imutils, Scipy, OpenCV version 3.4, Numpy and Pyzbar. Install with this command:  
+```python -m pip install imutils scipy numpy pyzbar opencv-python==3.4.13.47```
 
 
 ## Downloading and Running
