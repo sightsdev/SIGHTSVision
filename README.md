@@ -12,7 +12,7 @@ This repository contains vision and camera related software created by the Semi-
 
 ## Downloading and Running
 
-The main file for hazmat detection is hazmat.py. Use the -h flag to see all the available parameters:
+The main file for hazmat detection is hazmat.py. Use the -h flag to see all the parameters:
 ```python hazmat.py -h```
 
 Use the -vs flag for the video source. w for webcam, r for robot camera:
