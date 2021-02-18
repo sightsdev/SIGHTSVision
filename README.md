@@ -14,7 +14,7 @@ $ python -m pip install imutils scipy numpy pyzbar opencv-python==3.4.13.47
 
 The main file for hazmat detection is hazmat.py. Use the -h flag to see all the parameters.  
 ```
-$python hazmat.py -h
+$ python hazmat.py -h
 ```
 
 Use the -vs flag for the video source. w for webcam, r for robot camera.  
