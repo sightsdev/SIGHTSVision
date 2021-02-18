@@ -10,11 +10,11 @@ Packages required are Imutils, Scipy, OpenCV version 3.4, Numpy and Pyzbar. Inst
 
 ## Downloading and Running
 
-The main file for hazmat detection is hazmat.py. Use the -h flag to see all the parameters:
+The main file for hazmat detection is hazmat.py. Use the -h flag to see all the parameters.  
 ```python hazmat.py -h```
 
-Use the -vs flag for the video source. w for webcam, r for robot camera:
-* ```python hazmat.py -vs w```
+Use the -vs flag for the video source. w for webcam, r for robot camera.  
+* ```python hazmat.py -vs w```  
 * ```python hazmat.py -vs r```
 
 
