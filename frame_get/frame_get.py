@@ -15,8 +15,8 @@ success,image = vidcap.read()
 frame_count = 0
 step = 20
 while success:
-  success,image = vidcap.read()
-  if frame_count % step == 0:
-    cv2.imwrite(f"{out_name}/frame%d.jpg" % (frame_count//step), image)     # save frame as JPEG file      
-    print('Read a new frame: ', success)
-  frame_count += 1
+    success,image = vidcap.read()
+    if frame_count % step == 0:
+        cv2.imwrite(f"{out_name}/frame%d.jpg" % (frame_count//step), image)     # save frame as JPEG file      
+        print('Read a new frame: ', success)
+    frame_count += 1
