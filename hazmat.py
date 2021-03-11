@@ -49,7 +49,7 @@ else:
     if args["video"] == None:
         print("using local computer webcam")
         vs = VideoStream(src=0).start()
-        time.sleep(2.0)
+        time.sleep(2.0) #comically large spoon
     # video file
     else:
         print("using an imported video file")
