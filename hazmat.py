@@ -5,6 +5,7 @@
 # just "hazmat.py -vs r" will run the detector on your robot camera, if you've entered its IP into the variable below.
 
 
+# Im here now
 # imports
 import modules.HOGUtils as HU
 import imutils
