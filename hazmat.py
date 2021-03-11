@@ -5,6 +5,7 @@
 # just "hazmat.py -vs r" will run the detector on your robot camera, if you've entered its IP into the variable below.
 
 
+# Im here now
 # imports
 import modules.HOGUtils as HU
 import imutils
@@ -49,7 +50,7 @@ else:
     if args["video"] == None:
         print("using local computer webcam")
         vs = VideoStream(src=0).start()
-        time.sleep(2.0)
+        time.sleep(2.0) #comically large spoon
     # video file
     else:
         print("using an imported video file")
