@@ -87,8 +87,17 @@ def classify(image, sign_list):
         
     # Sort the results using the bff match attribute in reverse order
     # this only uses the bff property of the sign objects, not colour.
-    sign_list.sort(key=lambda x: x.bff, reverse=True)
+    # sign_list.sort(key=lambda x: x.bff, reverse=True)
 
-    best = sign_list[0]
+    # best = sign_list[0]
 
-    return best.name
+	best_sign = sign_list[0] #Creates variable with the sign object type
+
+	#For each sign in the list
+	for sign in sign_list:
+		#Grabs the values of both signs and compares to if current sign value is higher than best value
+		if sign.bff > best_sign.bff: 
+			#If true, assigns the current selected sign to the new highest sign
+			best_sign = sign
+
+    return best_sign.name #Returns the name of the best sign after checking
