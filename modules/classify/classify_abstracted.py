@@ -91,13 +91,13 @@ def classify(image, sign_list):
 
     # best = sign_list[0]
 
-	best_sign = sign_list[0] #Creates variable with the sign object type
+    best_sign = sign_list[0] #Creates variable with the sign object type
 
-	#For each sign in the list
-	for sign in sign_list:
-		#Grabs the values of both signs and compares to if current sign value is higher than best value
-		if sign.bff > best_sign.bff: 
+    #For each sign in the list
+    for sign in sign_list:
+        #Grabs the values of both signs and compares to if current sign value is higher than best value
+        if sign.bff > best_sign.bff: 
 			#If true, assigns the current selected sign to the new highest sign
-			best_sign = sign
+            best_sign = sign
 
     return best_sign.name #Returns the name of the best sign after checking
