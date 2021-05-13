@@ -19,6 +19,13 @@ The main file for hazmat detection is hazmat.py. Use the -h flag to see all the 
 $ python hazmat.py -h
 ```
 
+### ZED SDK
+The spatial mapping script uses the ZED SDK to interface with ZED, a depth-sensing camera from StereoLabs.
+
+### YOLO Object Detection
+This project will eventually contain Darknet binaries, which we will reference as a tool to make detections in our current program.  
+Darknet is an implementation of the YOLO algorithm by AlexeyAB (https://github.com/AlexeyAB/darknet). It is among the most widely used open-source implementations of YOLO.
+
 Use the -vs flag for the video source. w for webcam, r for robot camera.  
 ```
 $ python hazmat.py -vs w
