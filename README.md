@@ -26,6 +26,8 @@ The spatial mapping script uses the ZED SDK to interface with ZED, a depth-sensi
 This project will eventually contain Darknet binaries, which we will reference as a tool to make detections in our current program.  
 Darknet is an implementation of the YOLO algorithm by AlexeyAB (https://github.com/AlexeyAB/darknet). It is among the most widely used open-source implementations of YOLO.
 
+### Running hazmat detection
+
 Use the -vs flag for the video source. w for webcam, r for robot camera.  
 ```
 $ python hazmat.py -vs w
