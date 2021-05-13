@@ -1,8 +1,8 @@
 
 # imports
 import numpy as np
-import argparse
-import glob
+#import argparse
+#import glob
 import cv2
 
 # Brute Force Feature matching
