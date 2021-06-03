@@ -10,10 +10,10 @@ out_name = "output"
 if not os.path.exists(out_name):
     os.makedirs(out_name)
 
-vidcap = cv2.VideoCapture('sample.mp4')
+vidcap = cv2.VideoCapture('set11.mp4')
 success,image = vidcap.read()
 frame_count = 0
-step = 20
+step = 5
 while success:
     success,image = vidcap.read()
     if frame_count % step == 0:
