@@ -25,6 +25,7 @@ ap.add_argument("-vs", "--videosource", help="-vs r for robot camera, -vs w for 
 ap.add_argument("-t","--threshVal", default=127, type = int, help="Threshold val for edge detection")
 ap.add_argument("-m", "--minimum", default=200, type=int, help="The minimum number of pixels to be inside a contour to render it valid")
 ap.add_argument("-v", "--video", default=None, help="The path to the input video")
+ap.add_argument("-s", "--speed", default='slow', help="The speed that the classifier will run at. Note that slower is more accurate.")
 args = vars(ap.parse_args())
 
 # Init templates
@@ -37,8 +38,13 @@ names = ["Explosives 1.1 1", "Explosives 1.2 1", "Explosives 1.3 1", "Explosives
 "Oxygen 2", "Inhalation Hazard", "Flammable 3", "Gasoline 3", "Combustible 3", "Fuel Oil 3", "Dangerous When Wet 4", "Flammable Solid 4", "Spontaneously Combustible 4",
 "Oxidizer 5.1", "Organic Peroxide 5.2", "Inhalation Hazard 6", "Poison 6", "Toxic 6", "Radioactive 7", "Corrosive 8", "Other Dangerous Goods 9", "Dangerous"]
 
+# set the file location of the templates based on the speed setting
+folder = "templates/"
+if args['speed'] == "fast":
+    folder = "templates_fast/"
+
 for i in range(1, 27):
-    sign_list.append(Sign(templates_dir+"templates/"+str(i) + FILETYPE, names[i-1]))
+    sign_list.append(Sign(templates_dir + folder + str(i) + FILETYPE, names[i-1]))
 
 
 if args['videosource'] == "r":
