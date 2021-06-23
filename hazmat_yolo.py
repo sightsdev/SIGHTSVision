@@ -1,4 +1,12 @@
 
+'''
+Tutorial:
+https://youtu.be/GGeF_3QOHGE
+
+This file can't be used for training. This OpenCV code will use a .cfg and .weights file
+as input (which we get from darknet), and use them to make detections.
+'''
+
 import cv2
 import numpy as np
 
