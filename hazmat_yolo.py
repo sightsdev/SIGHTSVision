@@ -9,19 +9,26 @@ as input (which we get from darknet), and use them to make detections.
 
 import cv2
 import numpy as np
+import argparse
+
+ap = argparse.ArgumentParser()
+ap.add_argument("-mode", "--mode", help="coco mode versus hazmat mode")
+args = vars(ap.parse_args())
 
 cap = cv2.VideoCapture(0)
 whT = 320
-modelConfiguration = 'hazmat/coco.cfg'
-modelWeights = 'hazmat/coco.weights'
 classesFile = 'hazmat/coco.names'
-testing = True
+testing = args['mode']
 confThreshold = 0.5
 
 if testing:
+    modelConfiguration = 'hazmat/coco.cfg'
+    modelWeights = 'hazmat/coco.weights'
     with open(classesFile,'rt') as f:
         classes = f.read().rstrip('\n').split('\n')
 else:
+    modelConfiguration = 'tba'
+    modelWeights = 'tba'
     classes = ['sign'] # only one sign
 
 net = cv2.dnn.readNetFromDarknet(modelConfiguration,modelWeights)
