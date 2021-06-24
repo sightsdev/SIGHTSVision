@@ -8,7 +8,7 @@
 # Im here now
 # imports
 import modules.HOGUtils as HU
-import imutils
+#import imutils
 import argparse
 import cv2
 import numpy as np
@@ -96,7 +96,8 @@ while True:
         # box
         # grab just the area of the located sign from the image, instead of the entire image
         x1, y1, x2, y2 = int(bounding_box[0]), int(bounding_box[1]), int(bounding_box[2]), int(bounding_box[3])
-        region = masked[y1:y2, x1:x2]
+        #region = masked[y1:y2, x1:x2]
+        region = frame[y1:y2, x1:x2]
 
         # constants
         text = classify(region, sign_list)

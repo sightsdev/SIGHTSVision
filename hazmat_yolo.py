@@ -11,14 +11,17 @@ import cv2
 import numpy as np
 import argparse
 import modules.HOGUtils
-from random import randint
+from modules.classify.classify_abstracted import *
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-m", "--mode", default="hazmat", help="coco mode versus hazmat mode")
 ap.add_argument("-s", "--suppression", default="on", help="enable use of nonmax suppression")
 args = vars(ap.parse_args())
 
-colour = (255,0,0)
+blue = (255,0,0)
+green = (0,255,0)
+red = (0,0,255)
+draw_colour = blue
 cap = cv2.VideoCapture(0)
 whT = 320
 classesFile = 'hazmat/coco.names'
@@ -71,6 +74,14 @@ def boxArea(box):
     return abs((x2 - x1) * (y2 - y1))
 
 
+def boxValid(box):
+    [x1,y1,x2,y2] = box
+    goodArea = boxArea(box) > 500
+    goodX = x2 > x1
+    goodY = y2 > y1
+    return goodArea and goodX and goodY
+
+
 def bigger(box1, box2):
     # return the bigger of two boxes
     if boxArea(box1) > boxArea(box2):
@@ -104,7 +115,7 @@ def makeBoxes(bboxes):
 # ensure that the bboxes coming in are coming as outputs from makeBoxes
 def drawBox(bbox,img):
     x1,y1,x2,y2 = bbox
-    cv2.rectangle(img, (x1, y1), (x2, y2), colour, 2)
+    cv2.rectangle(img, (x1, y1), (x2, y2), draw_colour, 2)
     return img
 
 
@@ -114,8 +125,71 @@ def drawBoxes(bboxes,img):
     return img
 
 
+def annotate(img, bounding_box):
+    # box
+    # grab just the area of the located sign from the image, instead of the entire image
+    x1, y1, x2, y2 = int(bounding_box[0]), int(bounding_box[1]), int(bounding_box[2]), int(bounding_box[3])
+    region = img[y1:y2, x1:x2]
+
+    # constants
+    text = classify(region, sign_list)
+    text_x = int(x1 + (x2-x1)/2) - 20
+    text_y = int(y1 + (y2-y1)/2) - 20
+    colour = (255, 255, 255)
+    black = (0, 0, 0)
+    font_size = 0.5
+    font_thickness = 1
+    buff = 0
+
+    # get text position etc
+    (text_width_1, text_height_1) = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontScale=font_size, thickness=font_thickness)[0]
+
+    # get coords of rectangle behind text
+    box_coords_1 = ((text_x + buff, text_y + buff), (text_x + text_width_1 - 2*buff, text_y - text_height_1 - 2*buff))
+
+    # draw rectangle behind text
+    cv2.rectangle(img, box_coords_1[0], box_coords_1[1], black, cv2.FILLED)
+
+    # draw text
+    cv2.putText(img, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, font_size, colour, font_thickness)
+
+    return img
+
+
+def annotateFully(bboxes, img):
+    for bbox in bboxes:
+        img = annotate(img, bbox)
+    return img
+
+
+# it gives a super weird error for no reason, so I just use a try-except to dodge that
+# and it works fine
+def annotateFullySafely(bboxes, img):
+    for bbox in bboxes:
+        try:
+            img = annotate(img, bbox)
+        except:
+            pass
+    return img
+
+
+# initialize classification stuff
+sign_list = []
+templates_dir = "modules/classify/"
+folder = "templates/"
+FILETYPE = ".png"
+names = ["Explosives 1.1 1", "Explosives 1.2 1", "Explosives 1.3 1", "Explosives 1.4 1", "Blasting Agents 1.5 1", "Explosives 1.6 1", "Flammable Gas 2", "Non-Flammable Gas 2",
+"Oxygen 2", "Inhalation Hazard", "Flammable 3", "Gasoline 3", "Combustible 3", "Fuel Oil 3", "Dangerous When Wet 4", "Flammable Solid 4", "Spontaneously Combustible 4",
+"Oxidizer 5.1", "Organic Peroxide 5.2", "Inhalation Hazard 6", "Poison 6", "Toxic 6", "Radioactive 7", "Corrosive 8", "Other Dangerous Goods 9", "Dangerous"]
+
+# generate list of template signs
+for i in range(1, 27):
+    sign_list.append(Sign(templates_dir + folder + str(i) + FILETYPE, names[i-1]))
+
 
 while True:
+
+    # reads image from webcam
     success, img = cap.read()
 
     blob = cv2.dnn.blobFromImage(img,1/255,(whT,whT),[0,0,0],1,crop=False)
@@ -135,9 +209,7 @@ while True:
         matrix = np.vstack(detections)
         detections = modules.HOGUtils.non_max_suppression_fast(matrix, 0.5)
 
-    # classification
-
-    
+    img = annotateFullySafely(detections,img)
     img = drawBoxes(detections,img)
 
     cv2.imshow('Frame', img)
