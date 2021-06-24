@@ -10,15 +10,18 @@ as input (which we get from darknet), and use them to make detections.
 import cv2
 import numpy as np
 import argparse
+import modules.HOGUtils
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-mode", "--mode", default="hazmat", help="coco mode versus hazmat mode")
+ap.add_argument("-m", "--mode", default="hazmat", help="coco mode versus hazmat mode")
+ap.add_argument("-s", "--suppression", default="on", help="enable use of nonmax suppression")
 args = vars(ap.parse_args())
 
 cap = cv2.VideoCapture(0)
 whT = 320
 classesFile = 'hazmat/coco.names'
 testing = args['mode'] == "coco"
+suppression = args['suppression'] == "on"
 confThreshold = 0.5
 
 if testing:
@@ -44,8 +47,7 @@ def findObjects(outs,img):
     bbox = []
     classIds = []
     confs = []
-
-    for output in outputs:
+    for output in outs:
         # det is details
         for det in output:
             scores = det[5:]
@@ -60,6 +62,27 @@ def findObjects(outs,img):
     
     # only use the bbox
     return bbox
+
+
+def boxArea(box):
+    [x1,y1,x2,y2] = box
+    return abs((x2 - x1) * (y2 - y1))
+
+
+def bigger(box1, box2):
+    # return the bigger of two boxes
+    if boxArea(box1) > boxArea(box2):
+        return box1
+    else:
+        return box2
+
+
+def smaller(box1, box2):
+    # return the smaller of two boxes
+    if boxArea(box1) < boxArea(box2):
+        return box1
+    else:
+        return box2
 
 
 def drawBox(bbox,img):
@@ -90,6 +113,13 @@ while True:
     outputs = net.forward(outputNames)
     
     detections = findObjects(outputs,img)
+    
+    if detections and suppression:
+        matrix = np.vstack(detections)
+        detections = modules.HOGUtils.non_max_suppression_fast(matrix, 0.5)
+
+
+    
     img = drawBoxes(detections,img)
 
     cv2.imshow('Frame', img)

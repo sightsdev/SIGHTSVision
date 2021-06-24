@@ -132,12 +132,12 @@ def non_max_suppression_fast(boxes, overlapThresh):
  
 	# if the bounding boxes integers, convert them to floats --
 	# this is important since we'll be doing a bunch of divisions
-	if boxes.dtype.kind == "i":
-		boxes = boxes.astype("float")
- 
+	# if boxes.dtype.kind == "i":
+	# 	boxes = boxes.astype("float")
+
 	# initialize the list of picked indexes	
 	pick = []
- 
+
 	# grab the coordinates of the bounding boxes
 	x1 = boxes[:,0]
 	y1 = boxes[:,1]
