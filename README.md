@@ -10,30 +10,21 @@ This repository contains vision and camera related software created by the Semi-
 
 Packages required are Imutils, Scipy, OpenCV version 3.4, Numpy and Pyzbar. Install with this command:  
 ```
-$ python -m pip install imutils scipy numpy pyzbar opencv-contrib-python==3.4.13.47
+python -m pip install imutils scipy numpy pyzbar opencv-contrib-python==3.4.13.47
 ```
 
 ### 2. ZED SDK
 The spatial mapping script uses the ZED SDK to interface with ZED, a depth-sensing camera from StereoLabs.
 
 ### 3. YOLO Object Detection
-This project will eventually contain Darknet binaries, which we will reference as a tool to make detections in our current program.  
-Darknet is an implementation of the YOLO algorithm by AlexeyAB (https://github.com/AlexeyAB/darknet). It is among the most widely used open-source implementations of YOLO.
+This project uses a YOLO object detector to find the signs in an image. The software contains a weights and cfg file, trained by SART using darknet, 
 
 ## Downloading and Running
 
-The main file for hazmat detection is hazmat.py. Use the -h flag to see all the parameters.  
+The main file for hazmat detection is hazmat_yolo.py. Use the -h flag to see all the available command line settings.
 ```
-$ python hazmat.py -h
+python hazmat_yolo.py -h
 ```
-
-Use the -vs flag for the video source. w for webcam, r for robot camera.  
-```
-$ python hazmat.py -vs w
-$ or
-$ python hazmat.py -vs r
-```
-
 
 ## Contributing
 
