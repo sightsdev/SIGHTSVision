@@ -75,7 +75,7 @@ while True:
         break
 
     # operate
-    frame = imutils.resize(frame, width=500) # the frame
+    #frame = imutils.resize(frame, width=500) # the frame
     descs = HU.colorShape(frame, colors=False, thresh=int(args['threshVal'])) # info about the frame - gets contours etc
     mask = np.zeros(frame.shape[:2], dtype="uint8") # a new black image the same size as the frame
     sqrs = np.zeros([0,5]) # a new array to store the bounding boxes
