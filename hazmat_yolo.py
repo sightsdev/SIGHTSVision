@@ -12,13 +12,13 @@ import numpy as np
 import argparse
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-mode", "--mode", help="coco mode versus hazmat mode")
+ap.add_argument("-mode", "--mode", default="hazmat", help="coco mode versus hazmat mode")
 args = vars(ap.parse_args())
 
 cap = cv2.VideoCapture(0)
 whT = 320
 classesFile = 'hazmat/coco.names'
-testing = args['mode']
+testing = args['mode'] == "coco"
 confThreshold = 0.5
 
 if testing:
@@ -27,8 +27,8 @@ if testing:
     with open(classesFile,'rt') as f:
         classes = f.read().rstrip('\n').split('\n')
 else:
-    modelConfiguration = 'tba'
-    modelWeights = 'tba'
+    modelConfiguration = 'hazmat/custom-yolov4-tiny-detector.cfg'
+    modelWeights = 'hazmat/custom-yolov4-tiny-detector_best.weights'
     classes = ['sign'] # only one sign
 
 net = cv2.dnn.readNetFromDarknet(modelConfiguration,modelWeights)
