@@ -16,6 +16,7 @@ from modules.classify.classify_abstracted import *
 ap = argparse.ArgumentParser()
 ap.add_argument("-m", "--mode", default="hazmat", help="coco mode versus hazmat mode")
 ap.add_argument("-s", "--suppression", default="on", help="enable use of nonmax suppression")
+ap.add_argument("-sp", "--speed", default="slow", help="fast/slow: classification algorithm speed")
 args = vars(ap.parse_args())
 
 blue = (255,0,0)
@@ -27,6 +28,7 @@ whT = 320
 classesFile = 'hazmat/coco.names'
 testing = args['mode'] == "coco"
 suppression = args['suppression'] == "on"
+fast_mode = args['speed'] == 'fast'
 confThreshold = 0.5
 
 if testing:
@@ -176,7 +178,10 @@ def annotateFullySafely(bboxes, img):
 # initialize classification stuff
 sign_list = []
 templates_dir = "modules/classify/"
-folder = "templates/"
+if fast_mode:
+    folder = "templates_fast/"
+else:
+    folder = "templates/"
 FILETYPE = ".png"
 names = ["Explosives 1.1 1", "Explosives 1.2 1", "Explosives 1.3 1", "Explosives 1.4 1", "Blasting Agents 1.5 1", "Explosives 1.6 1", "Flammable Gas 2", "Non-Flammable Gas 2",
 "Oxygen 2", "Inhalation Hazard", "Flammable 3", "Gasoline 3", "Combustible 3", "Fuel Oil 3", "Dangerous When Wet 4", "Flammable Solid 4", "Spontaneously Combustible 4",
