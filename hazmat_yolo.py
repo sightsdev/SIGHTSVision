@@ -11,12 +11,14 @@ import cv2
 import numpy as np
 import argparse
 import modules.HOGUtils
+from random import randint
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-m", "--mode", default="hazmat", help="coco mode versus hazmat mode")
 ap.add_argument("-s", "--suppression", default="on", help="enable use of nonmax suppression")
 args = vars(ap.parse_args())
 
+colour = (255,0,0)
 cap = cv2.VideoCapture(0)
 whT = 320
 classesFile = 'hazmat/coco.names'
@@ -85,10 +87,24 @@ def smaller(box1, box2):
         return box2
 
 
+# turn x y w h into x1 y1 x2 y2
+def makeBox(bbox):
+    x,y,w,h = bbox
+    return [x, y, x+w, y+h]
+
+
+# apply makeBox to a list of bounding boxes
+def makeBoxes(bboxes):
+    new_boxes = []
+    for box in bboxes:
+        new_boxes.append(makeBox(box))
+    return new_boxes
+
+
+# ensure that the bboxes coming in are coming as outputs from makeBoxes
 def drawBox(bbox,img):
-    x1,y1 = bbox[0],bbox[1]
-    x2,y2 = x1+bbox[2],y1+bbox[3]
-    cv2.rectangle(img, (x1, y1), (x2, y2), (255,0,0), 2)
+    x1,y1,x2,y2 = bbox
+    cv2.rectangle(img, (x1, y1), (x2, y2), colour, 2)
     return img
 
 
@@ -112,12 +128,14 @@ while True:
 
     outputs = net.forward(outputNames)
     
-    detections = findObjects(outputs,img)
-    
-    if detections and suppression:
+    detections = makeBoxes(findObjects(outputs,img))
+
+    # non max suppression
+    if len(detections)>1 and suppression:
         matrix = np.vstack(detections)
         detections = modules.HOGUtils.non_max_suppression_fast(matrix, 0.5)
 
+    # classification
 
     
     img = drawBoxes(detections,img)
