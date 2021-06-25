@@ -135,15 +135,15 @@ def annotate(img, bounding_box, lst):
     text_y = int(y1 + (y2-y1)/2) - 20
     colour = (255, 255, 255)
     black = (0, 0, 0)
-    font_size = 0.5
-    font_thickness = 1
-    buff = 0
+    font_size = 0.75
+    font_thickness = 2
+    buff = 5
 
     # get text position etc
     (text_width_1, text_height_1) = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, fontScale=font_size, thickness=font_thickness)[0]
 
     # get coords of rectangle behind text
-    box_coords_1 = ((text_x + buff, text_y + buff), (text_x + text_width_1 - 2*buff, text_y - text_height_1 - 2*buff))
+    box_coords_1 = ((text_x - buff, text_y + buff), (text_x + text_width_1 + buff, text_y - text_height_1 - buff))
 
     # draw rectangle behind text
     cv2.rectangle(img, box_coords_1[0], box_coords_1[1], black, cv2.FILLED)
