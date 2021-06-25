@@ -42,7 +42,7 @@ def dataArrayToString(line, prop):
 if args['videosource'] == 'w':
     source = VideoStream(src=0).start()
 elif args['videosource'] == 'r':
-    source = VideoStream(src="http://"+ip+":8081").start()
+    source = VideoStream(src="http://"+ip+":8080/1/stream").start()
 
 # save codes
 codes = {}

@@ -12,18 +12,24 @@ import numpy as np
 import argparse
 import modules.HOGUtils
 from modules.classify.classify_abstracted import *
+from imutils.video import VideoStream
+import time
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-s", "--suppression", default="on", help="enable use of nonmax suppression")
 ap.add_argument("-sp", "--speed", default="slow", help="fast/slow: classification algorithm speed")
+ap.add_argument('-vs', '--videosource', default='w', help='-vs r for robot, -vs w for webcam.')
 args = vars(ap.parse_args())
 
+# I hope this is the right IP address
+ip = "10.0.0.4"
 blue = (255,0,0)
 green = (0,255,0)
 red = (0,0,255)
 draw_colour = blue
-cap = cv2.VideoCapture(0)
+#cap = cv2.VideoCapture(0)
 whT = 320
+robot_camera = args['videosource'] == 'r'
 suppression = args['suppression'] == "on"
 fast_mode = args['speed'] == 'fast'
 confThreshold = 0.5
@@ -178,15 +184,30 @@ names = ["Explosives 1.1 1", "Explosives 1.2 1", "Explosives 1.3 1", "Explosives
 "Oxygen 2", "Inhalation Hazard", "Flammable 3", "Gasoline 3", "Combustible 3", "Fuel Oil 3", "Dangerous When Wet 4", "Flammable Solid 4", "Spontaneously Combustible 4",
 "Oxidizer 5.1", "Organic Peroxide 5.2", "Inhalation Hazard 6", "Poison 6", "Toxic 6", "Radioactive 7", "Corrosive 8", "Other Dangerous Goods 9", "Dangerous"]
 
+
 # generate list of template signs
 for i in range(1, 27):
     sign_list.append(Sign(templates_dir + folder + str(i) + FILETYPE, names[i-1]))
 
 
+# get video stream from the robot
+if args['videosource'] == "r":
+    # robot
+    print("using robot camera")
+    vs = VideoStream(src="http://"+ip+":8080/1/stream").start()
+else:
+    # webcam
+    print("using local computer webcam")
+    vs = VideoStream(src=0).start()
+    time.sleep(2.0)
+
+
+
 while True:
 
     # reads image from webcam
-    success, img = cap.read()
+    #success, img = cap.read()
+    img = vs.read()
 
     blob = cv2.dnn.blobFromImage(img,1/255,(whT,whT),[0,0,0],1,crop=False)
     net.setInput(blob)
