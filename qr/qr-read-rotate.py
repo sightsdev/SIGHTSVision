@@ -93,10 +93,8 @@ while (True):
     
         cv2.imshow("Camera", contrast_image)
         # exit condition
-        k = cv2.waitKey(5) & 0xFF
-
-    if k == 27:
-            break
+    k = cv2.waitKey(5) & 0xFF
+    if k == 27: break
 
 # chuck the codes in a fil
 f = open("qr/res/results.txt","w")

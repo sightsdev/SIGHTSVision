@@ -230,8 +230,10 @@ while True:
     img = cv2.resize(img, (width, height))
 
     cv2.imshow('Frame', img)
-    cv2.waitKey(1)
+    
+    k = cv2.waitKey(5) & 0xFF
+    if k == 27: break
 
 # test
-print(lst)
+print(signs_found)
 input()
