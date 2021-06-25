@@ -25,7 +25,6 @@ draw_colour = blue
 cap = cv2.VideoCapture(0)
 whT = 320
 classesFile = 'hazmat/coco.names'
-testing = args['mode'] == "coco"
 suppression = args['suppression'] == "on"
 fast_mode = args['speed'] == 'fast'
 confThreshold = 0.5
