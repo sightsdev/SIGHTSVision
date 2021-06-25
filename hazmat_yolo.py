@@ -14,6 +14,7 @@ import modules.HOGUtils
 from modules.classify.classify_abstracted import *
 from imutils.video import VideoStream
 import time
+import os
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-s", "--suppression", default="on", help="enable use of nonmax suppression")
