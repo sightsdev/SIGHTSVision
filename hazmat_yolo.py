@@ -20,7 +20,7 @@ ap.add_argument('-vs', '--videosource', default='r', help='-vs r for robot, -vs 
 args = vars(ap.parse_args())
 
 # I hope this is the right IP address
-ip = "10.0.0.4"
+ip = "10.0.0.5"
 blue = (255,0,0)
 green = (0,255,0)
 red = (0,0,255)
@@ -187,7 +187,7 @@ for i in range(1, 27):
 if args['videosource'] == "r":
     # robot
     print("using robot camera")
-    vs = VideoStream(src="http://"+ip+":8080/1/stream").start()
+    vs = VideoStream(src="http://"+ip+":8081/1/stream").start()
 else:
     # webcam
     print("using local computer webcam")

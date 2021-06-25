@@ -11,7 +11,7 @@ ap.add_argument('-vs', '--videosource', default='w', help='-vs r for robot, -vs 
 args = vars(ap.parse_args())
 
 # constants
-ip = "10.0.0.4"
+ip = "10.0.0.5"
 angle_increase = 30
 
 def getNumber(line, prop):
@@ -42,7 +42,7 @@ def dataArrayToString(line, prop):
 if args['videosource'] == 'w':
     source = VideoStream(src=0).start()
 elif args['videosource'] == 'r':
-    source = VideoStream(src="http://"+ip+":8080/1/stream").start()
+    source = VideoStream(src="http://"+ip+":8081/1/stream").start()
 
 # save codes
 codes = {}
