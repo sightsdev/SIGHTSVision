@@ -24,7 +24,6 @@ red = (0,0,255)
 draw_colour = blue
 cap = cv2.VideoCapture(0)
 whT = 320
-classesFile = 'hazmat/coco.names'
 suppression = args['suppression'] == "on"
 fast_mode = args['speed'] == 'fast'
 confThreshold = 0.5
@@ -194,11 +193,13 @@ while True:
 
     layerNames = net.getLayerNames()
     outputNames = [layerNames[i[0]-1] for i in net.getUnconnectedOutLayers()]
-    # print(outputNames)
-    # print(net.getUnconnectedOutLayers())
 
     outputs = net.forward(outputNames)
+    print(outputs)
     
+    height, width = img.shape[0], img.shape[1]
+    img = cv2.resize(img, (600,400))
+
     detections = makeBoxes(findObjects(outputs,img))
 
     # non max suppression
@@ -208,6 +209,7 @@ while True:
 
     img = annotateFullySafely(detections,img)
     img = drawBoxes(detections,img)
+    img = cv2.resize(img, (width, height))
 
     cv2.imshow('Frame', img)
     cv2.waitKey(1)
