@@ -193,7 +193,6 @@ else:
     # webcam
     print("using local computer webcam")
     vs = VideoStream(src=0).start()
-    time.sleep(2.0)
 
 
 # make a list to store signs found in the order we found them
@@ -235,5 +234,15 @@ while True:
     if k == 27: break
 
 # test
-print(signs_found)
-input()
+
+# chuck the signs in a fil
+f = open("hazmat/res/results.txt","w")
+
+for name in signs_found:
+    f.write(name+"\n")
+
+# close f
+f.close()
+
+# destroy all windows
+cv2.destroyAllWindows()
