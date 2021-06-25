@@ -14,7 +14,6 @@ import modules.HOGUtils
 from modules.classify.classify_abstracted import *
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-m", "--mode", default="hazmat", help="coco mode versus hazmat mode")
 ap.add_argument("-s", "--suppression", default="on", help="enable use of nonmax suppression")
 ap.add_argument("-sp", "--speed", default="slow", help="fast/slow: classification algorithm speed")
 args = vars(ap.parse_args())
@@ -31,15 +30,9 @@ suppression = args['suppression'] == "on"
 fast_mode = args['speed'] == 'fast'
 confThreshold = 0.5
 
-if testing:
-    modelConfiguration = 'hazmat/coco.cfg'
-    modelWeights = 'hazmat/coco.weights'
-    with open(classesFile,'rt') as f:
-        classes = f.read().rstrip('\n').split('\n')
-else:
-    modelConfiguration = 'hazmat/custom-yolov4-tiny-detector.cfg'
-    modelWeights = 'hazmat/custom-yolov4-tiny-detector_best.weights'
-    classes = ['sign'] # only one sign
+modelConfiguration = 'hazmat/custom-yolov4-tiny-detector.cfg'
+modelWeights = 'hazmat/custom-yolov4-tiny-detector_best.weights'
+classes = ['sign'] # only one sign
 
 net = cv2.dnn.readNetFromDarknet(modelConfiguration,modelWeights)
 
