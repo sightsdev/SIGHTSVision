@@ -122,7 +122,7 @@ def drawBoxes(bboxes,img):
     return img
 
 
-def annotate(img, bounding_box):
+def annotate(img, bounding_box, lst):
     # box
     # grab just the area of the located sign from the image, instead of the entire image
     x1, y1, x2, y2 = int(bounding_box[0]), int(bounding_box[1]), int(bounding_box[2]), int(bounding_box[3])
@@ -130,6 +130,8 @@ def annotate(img, bounding_box):
 
     # constants
     text = classify(region, sign_list)
+    if text not in lst:
+        lst.append(text) # throw the text onto the pile of signs we have found
     text_x = int(x1 + (x2-x1)/2) - 20
     text_y = int(y1 + (y2-y1)/2) - 20
     colour = (255, 255, 255)
@@ -150,24 +152,18 @@ def annotate(img, bounding_box):
     # draw text
     cv2.putText(img, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, font_size, colour, font_thickness)
 
-    return img
-
-
-def annotateFully(bboxes, img):
-    for bbox in bboxes:
-        img = annotate(img, bbox)
-    return img
+    return img, lst
 
 
 # it gives a super weird error for no reason, so I just use a try-except to dodge that
 # and it works fine
-def annotateFullySafely(bboxes, img):
+def annotateFullySafely(bboxes, img, lst):
     for bbox in bboxes:
         try:
-            img = annotate(img, bbox)
+            img, lst = annotate(img, bbox, lst)
         except:
             pass
-    return img
+    return img, lst
 
 
 # initialize classification stuff
@@ -200,6 +196,9 @@ else:
     time.sleep(2.0)
 
 
+# make a list to store signs found in the order we found them
+signs_found = []
+
 
 while True:
 
@@ -226,9 +225,13 @@ while True:
         matrix = np.vstack(detections)
         detections = modules.HOGUtils.non_max_suppression_fast(matrix, 0.5)
 
-    img = annotateFullySafely(detections,img)
+    img, signs_found = annotateFullySafely(detections,img,signs_found)
     img = drawBoxes(detections,img)
     img = cv2.resize(img, (width, height))
 
     cv2.imshow('Frame', img)
     cv2.waitKey(1)
+
+# test
+print(lst)
+input()
