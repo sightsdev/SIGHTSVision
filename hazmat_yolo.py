@@ -16,7 +16,7 @@ import os
 ap = argparse.ArgumentParser()
 ap.add_argument("-s", "--suppression", default="on", help="enable use of nonmax suppression")
 ap.add_argument("-sp", "--speed", default="slow", help="fast/slow: classification algorithm speed")
-ap.add_argument('-vs', '--videosource', default='w', help='-vs r for robot, -vs w for webcam.')
+ap.add_argument('-vs', '--videosource', default='r', help='-vs r for robot, -vs w for webcam.')
 args = vars(ap.parse_args())
 
 # I hope this is the right IP address
