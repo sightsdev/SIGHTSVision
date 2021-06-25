@@ -130,8 +130,7 @@ def annotate(img, bounding_box, lst):
 
     # constants
     text = classify(region, sign_list)
-    if text not in lst:
-        lst.append(text) # throw the text onto the pile of signs we have found
+    lst.append(text) # throw the text onto the pile of signs we have found
     text_x = int(x1 + (x2-x1)/2) - 20
     text_y = int(y1 + (y2-y1)/2) - 20
     colour = (255, 255, 255)
@@ -238,7 +237,21 @@ while True:
 # chuck the signs in a fil
 f = open("hazmat/res/results.txt","w")
 
-for name in signs_found:
+def countElem(e,l):
+    c=0
+    for k in l:
+        if k==e:
+            c+=1
+    return c
+
+print(signs_found)
+
+signs_found_pruned = []
+for sign in signs_found:
+    if sign not in signs_found_pruned and countElem(sign,signs_found) >= 10:
+        signs_found_pruned.append(sign)
+
+for name in signs_found_pruned:
     f.write(name+"\n")
 
 # close f
