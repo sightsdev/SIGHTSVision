@@ -17,7 +17,7 @@ python -m pip install imutils scipy numpy pyzbar opencv-contrib-python==3.4.13.4
 The spatial mapping script uses the ZED SDK to interface with ZED, a depth-sensing camera from StereoLabs.
 
 ### 3. YOLO Object Detection
-This project uses a YOLO object detector to find the signs in an image. The software contains a weights and cfg file, trained using darknet, which runs through OpenCV.
+This project uses a YOLO object detector to find the signs in an image. The software comes with a weights and cfg file, trained using darknet, which will be interpreted by OpenCV.
 
 ## Downloading and Running
 
