@@ -2,7 +2,9 @@
 
 This repository contains vision and camera related software created by the Semi-Autonomous Rescue Team for the SART Integrated GUI and Host Teleoperation Service (SIGHTS) project.
 
-![image](https://www.sfxrescue.com/wp-content/uploads/2019/07/7.png)
+![image](https://www.sfxrescue.com/wp-content/uploads/2019/07/7.png)  
+
+![image](https://github.com/SFXRescue/SIGHTSVision/tree/master/hazmat/example.png)
 
 ## Requirements
 
