@@ -8,10 +8,11 @@ import argparse
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-vs', '--videosource', default='w', help='-vs r for robot, -vs w for webcam.')
+ap.add_argument('-ip', '--address', default='10.0.0.5', help='ip address of the robot on the SART Control network')
 args = vars(ap.parse_args())
 
 # constants
-ip = "10.0.0.5"
+ip = args['address']
 angle_increase = 30
 
 def getNumber(line, prop):
