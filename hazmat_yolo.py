@@ -17,10 +17,11 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-s", "--suppression", default="on", help="enable use of nonmax suppression")
 ap.add_argument("-sp", "--speed", default="slow", help="fast/slow: classification algorithm speed")
 ap.add_argument('-vs', '--videosource', default='r', help='-vs r for robot, -vs w for webcam.')
+ap.add_argument('-ip', '--address', default='10.0.0.5', help='ip address of the robot on the SART Control network')
 args = vars(ap.parse_args())
 
 # I hope this is the right IP address
-ip = "10.0.0.5"
+ip = args['address']
 blue = (255,0,0)
 green = (0,255,0)
 red = (0,0,255)
