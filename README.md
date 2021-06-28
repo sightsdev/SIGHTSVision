@@ -8,9 +8,9 @@ This repository contains vision and camera related software created by the Semi-
 
 ### 1. Python Packages
 
-Packages required are Imutils, Scipy, OpenCV version 3.4, Numpy and Pyzbar. Install with this command:  
+Packages required are Imutils, Scipy, OpenCV, Numpy and Pyzbar. Install with this command:  
 ```
-python -m pip install imutils scipy numpy pyzbar opencv-contrib-python==3.4.13.47
+python -m pip install -r requirements.txt
 ```
 
 ### 2. ZED SDK
