@@ -2,4 +2,4 @@ imutils
 scipy
 numpy
 pyzbar
-opencv-contrib-python
+opencv-contrib-python 
