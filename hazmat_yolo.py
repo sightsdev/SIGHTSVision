@@ -209,10 +209,9 @@ while True:
     net.setInput(blob)
 
     layerNames = net.getLayerNames()
-    outputNames = [layerNames[i[0]-1] for i in net.getUnconnectedOutLayers()]
+    outputNames = [layerNames[i-1] for i in net.getUnconnectedOutLayers()]
 
     outputs = net.forward(outputNames)
-    print(outputs)
     
     height, width = img.shape[0], img.shape[1]
     img = cv2.resize(img, (600,400))
